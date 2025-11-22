@@ -6,6 +6,7 @@ export default defineConfig(({ isSsrBuild }) => {
 			return {
 				plugins: [react()],
 				publicDir: "public",
+				base: process.env.GITHUB_PAGES ? "/DCMHS/" : "/",
 				build: {
 					ssr: isSSR ? "src/entry-server.jsx" : false,
 					manifest: !isSSR,

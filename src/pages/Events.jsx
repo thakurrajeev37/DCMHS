@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { Container, Typography, Box, Paper, Grid, Chip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
+import { Container, Typography, Box, Paper, Grid, Chip, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, Button, CircularProgress, Alert } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import CloseIcon from "@mui/icons-material/Close";
@@ -12,21 +12,43 @@ const Events = observer(() => {
 	const [selectedEvent, setSelectedEvent] = React.useState(null);
 	const [openDialog, setOpenDialog] = React.useState(false);
 
+	// Show loading state
+	if (eventsStore.loading) {
+		return (
+			<Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "60vh" }}>
+				<CircularProgress />
+			</Box>
+		);
+	}
+
+	// Show error state
+	if (eventsStore.error) {
+		return (
+			<Container sx={{ py: 4 }}>
+				<Alert severity="error">{eventsStore.error}</Alert>
+			</Container>
+		);
+	}
+
 	// Convert store events to calendar format with Date objects
 	const events = eventsStore.events.map(event => {
+		if (!event.date) return null;
+		
 		const eventData = { ...event };
 		
 		// Parse date string to Date object
-		if (event.isRange) {
-			const dates = event.date.split(' - ');
-			eventData.date = new Date(dates[0].trim());
-			eventData.endDate = new Date(dates[1].trim());
-		} else {
-			eventData.date = new Date(event.date);
+		eventData.date = new Date(event.date);
+		
+		// For range events, parse the end date
+		if (event.isRange && event.endDate) {
+			eventData.endDate = new Date(event.endDate);
+		} else if (event.isRange) {
+			// If no end date specified, use start date
+			eventData.endDate = new Date(event.date);
 		}
 		
 		return eventData;
-	});
+	}).filter(Boolean);
 
 	const handleEventClick = (event) => {
 		setSelectedEvent(event);

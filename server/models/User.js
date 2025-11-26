@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema({
   phone: { type: String },
   bio: { type: String },
   avatar: { type: String }, // base64 or URL
+  role: { 
+    type: String, 
+    enum: ['admin', 'teacher', 'student'],
+    default: 'student',
+    required: true 
+  }
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

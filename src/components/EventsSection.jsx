@@ -43,27 +43,27 @@ const EventsSection = observer(() => {
 		}
 	};
 
-	// Filter to show only future events
+	// Filter to show only future events and sort by date
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
-	const futureEvents = events.filter(event => {
-		// Check if the date is a range
-		if (event.date.includes(' - ')) {
-			// For date ranges, check if the end date is in the future
-			const dates = event.date.split(' - ');
-			const endDate = new Date(dates[1].trim());
-			endDate.setHours(0, 0, 0, 0);
-			return endDate >= today;
-		} else {
+	const futureEvents = events
+		.filter(event => {
+			if (!event.date) return false;
+			
 			// For single dates, check if the date is in the future
 			const eventDate = new Date(event.date);
 			eventDate.setHours(0, 0, 0, 0);
 			return eventDate >= today;
-		}
-	});
+		})
+		.sort((a, b) => {
+			// Sort by date in ascending order (earliest first)
+			const dateA = new Date(a.date);
+			const dateB = new Date(b.date);
+			return dateA - dateB;
+		});
 
 	return (
-		<Box sx={{ bgcolor: "#f5f5f5", py: { xs: 4, md: 8 } }}>
+		<Box sx={{ bgcolor: "white", py: { xs: 4, md: 8 } }}>
 			<Container maxWidth="lg">
 				<Typography 
 					variant="h3" 
@@ -78,263 +78,222 @@ const EventsSection = observer(() => {
 				>
 					Upcoming Events
 				</Typography>
-				<Box sx={{ position: "relative" }}>
-					{/* Left Scroll Button */}
-					<IconButton
-						onClick={handleScrollLeft}
+				<Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+					<Button
+						component={RouterLink}
+						to="/events"
+						variant="text"
+						endIcon={<ArrowForwardIcon />}
 						sx={{
-							position: "absolute",
-							left: -20,
-							top: "50%",
-							transform: "translateY(-50%)",
-							zIndex: 2,
-							bgcolor: "white",
-							boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-							width: "40px",
-							height: "40px",
+							color: "#3B6866",
+							fontWeight: 600,
+							textTransform: "none",
+							fontSize: "1rem",
 							"&:hover": {
-								bgcolor: "#3B6866",
-								color: "white",
+								bgcolor: "transparent",
+								textDecoration: "underline",
+								textDecorationColor: "#F7CA02",
 							},
-							display: { xs: "none", md: "flex" },
 						}}
 					>
-						<ArrowBackIosNewIcon fontSize="small" />
-					</IconButton>
+						VIEW FULL CALENDAR
+					</Button>
+				</Box>
 
-					{/* Right Scroll Button */}
-					<IconButton
-						onClick={handleScrollRight}
-						sx={{
-							position: "absolute",
-							right: -20,
-							top: "50%",
-							transform: "translateY(-50%)",
-							zIndex: 2,
-							bgcolor: "white",
-							boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-							width: "40px",
-							height: "40px",
-							"&:hover": {
-								bgcolor: "#3B6866",
-								color: "white",
-							},
-							display: { xs: "none", md: "flex" },
-						}}
-					>
-						<ArrowForwardIosIcon fontSize="small" />
-					</IconButton>
-
-					<Box
-						ref={scrollContainerRef}
-						sx={{
-							display: "flex",
-							gap: 3,
-							overflowX: "auto",
-							pb: 2,
-							scrollBehavior: "smooth",
-							"&::-webkit-scrollbar": {
-								height: "8px",
-							},
-							"&::-webkit-scrollbar-track": {
-								backgroundColor: "#f1f1f1",
-								borderRadius: "10px",
-							},
-							"&::-webkit-scrollbar-thumb": {
-								backgroundColor: "#3B6866",
-								borderRadius: "10px",
-								"&:hover": {
-									backgroundColor: "#2d7a6e",
-								},
-							},
-						}}
-					>
+				<Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 2 }}>
 					{futureEvents.map((event) => {
-						// Check if the date is a range
-						const isDateRange = event.date.includes('-') && event.date.split('-').length > 1;
+						if (!event.date) return null;
 						
-						let displayContent;
-						if (isDateRange) {
-							// Extract start and end dates from range
-							const dates = event.date.split(' - ');
-							const startDate = new Date(dates[0].trim());
-							const endDate = new Date(dates[1].trim());
-							const startMonth = startDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-							const endMonth = endDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-							const startDay = startDate.getDate();
-							const endDay = endDate.getDate();
-							
-							displayContent = (
-								<Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0.5 }}>
-									<Box sx={{ display: "flex", alignItems: "baseline", gap: 0.5 }}>
-										<Typography
-											variant="caption"
-											sx={{
-												color: "#666",
-												fontSize: "0.6rem",
-												fontWeight: 500,
-											}}
-										>
-											{startMonth}
-										</Typography>
-										<Typography
-											variant="h6"
-											sx={{
-												color: "#3B6866",
-												fontWeight: "bold",
-												lineHeight: 1,
-											}}
-										>
-											{startDay}
-										</Typography>
-									</Box>
-									<Typography
-										variant="caption"
-										sx={{
-											color: "#666",
-											fontSize: "0.6rem",
-										}}
-									>
-										to
-									</Typography>
-									<Box sx={{ display: "flex", alignItems: "baseline", gap: 0.5 }}>
-										<Typography
-											variant="caption"
-											sx={{
-												color: "#666",
-												fontSize: "0.6rem",
-												fontWeight: 500,
-											}}
-										>
-											{endMonth}
-										</Typography>
-										<Typography
-											variant="h6"
-											sx={{
-												color: "#3B6866",
-												fontWeight: "bold",
-												lineHeight: 1,
-											}}
-										>
-											{endDay}
-										</Typography>
-									</Box>
-								</Box>
-							);
-						} else {
-							const eventDate = new Date(event.date);
-							const month = eventDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
-							const day = eventDate.getDate();
-							
-							displayContent = (
-								<>
-									<Typography
-										variant="caption"
-										sx={{
-											color: "#666",
-											fontSize: "0.875rem",
-											fontWeight: 500,
-										}}
-									>
-										{month}
-									</Typography>
-									<Typography
-										variant="h4"
-										sx={{
-											color: "#3B6866",
-											fontWeight: "bold",
-											lineHeight: 1,
-										}}
-									>
-										{day}
-									</Typography>
-								</>
-							);
+						// Parse the event date
+						const eventDate = new Date(event.date);
+						const dayName = eventDate.toLocaleString('en-US', { weekday: 'long' }).toUpperCase();
+						const month = eventDate.toLocaleString('en-US', { month: 'long' }).toUpperCase();
+						const day = eventDate.getDate();
+						
+						// For multi-day events
+						let endDayName, endMonth, endDay;
+						if (event.isRange && event.endDate) {
+							const endEventDate = new Date(event.endDate);
+							endDayName = endEventDate.toLocaleString('en-US', { weekday: 'long' }).toUpperCase();
+							endMonth = endEventDate.toLocaleString('en-US', { month: 'long' }).toUpperCase();
+							endDay = endEventDate.getDate();
 						}
 						
 						return (
 							<Box
-								key={event.id}
+								key={event._id}
 								sx={{
-									minWidth: "220px",
-									textAlign: "center",
+									minWidth: { xs: "250px", md: "280px" },
 									cursor: "pointer",
 									"&:hover": {
-										"& .event-title": {
-											color: "#2d7a6e",
+										"& .event-card": {
+											transform: "translateY(-4px)",
+											boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
 										}
 									}
 								}}
 								onClick={() => handleEventClick(event)}
 							>
+								<Box
+									className="event-card"
+									sx={{
+										bgcolor: "white",
+										borderRadius: 0,
+										overflow: "hidden",
+										boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+										transition: "all 0.3s ease",
+									}}
+								>
+									{/* Date Header */}
 									<Box
 										sx={{
-											width: "120px",
-											height: "120px",
-											borderRadius: "50%",
-											border: "3px solid #e0e0e0",
-											display: "flex",
-											flexDirection: "column",
-											justifyContent: "center",
-											alignItems: "center",
-											margin: "0 auto 16px",
-											bgcolor: "white",
-											padding: "8px",
+											bgcolor: "#3B6866",
+											color: "white",
+											py: 2,
+											px: 2,
+											textAlign: "center",
 										}}
 									>
-										{displayContent}
+										{event.isRange && event.endDate ? (
+											// Multi-day event - show date range
+											<>
+												<Typography
+													variant="body2"
+													sx={{
+														fontWeight: 600,
+														fontSize: "0.875rem",
+														letterSpacing: "0.5px",
+													}}
+												>
+													{dayName} - {endDayName}
+												</Typography>
+												<Typography
+													variant="body2"
+													sx={{
+														fontWeight: 600,
+														fontSize: "0.875rem",
+														letterSpacing: "0.5px",
+														mt: 0.5,
+													}}
+												>
+													{month === endMonth ? month : `${month} - ${endMonth}`}
+												</Typography>
+												<Typography
+													variant="h2"
+													sx={{
+														fontWeight: "bold",
+														fontSize: "2.5rem",
+														lineHeight: 1,
+														mt: 1,
+													}}
+												>
+													{day} - {endDay}
+												</Typography>
+											</>
+										) : (
+											// Single day event
+											<>
+												<Typography
+													variant="body2"
+													sx={{
+														fontWeight: 600,
+														fontSize: "0.875rem",
+														letterSpacing: "0.5px",
+													}}
+												>
+													{dayName}
+												</Typography>
+												<Typography
+													variant="body2"
+													sx={{
+														fontWeight: 600,
+														fontSize: "0.875rem",
+														letterSpacing: "0.5px",
+														mt: 0.5,
+													}}
+												>
+													{month}
+												</Typography>
+												<Typography
+													variant="h2"
+													sx={{
+														fontWeight: "bold",
+														fontSize: "3rem",
+														lineHeight: 1,
+														mt: 1,
+													}}
+												>
+													{day}
+												</Typography>
+											</>
+										)}
 									</Box>
-									<Typography
-										variant="h6"
-										className="event-title"
-										sx={{
-											color: "#333",
-											fontWeight: 600,
-											mb: 1,
-											transition: "color 0.3s",
-											minHeight: "48px",
-											display: "flex",
-											alignItems: "center",
-											justifyContent: "center",
-										}}
-									>
-										{event.title}
-									</Typography>
-									<Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 0.5, color: "#666" }}>
-										<Typography variant="body2">
-											⏰ {event.time}
-										</Typography>
+
+									{/* Event Content */}
+									<Box sx={{ p: 2.5, minHeight: "100px", display: "flex", flexDirection: "column" }}>
+										<Box sx={{ display: "flex", alignItems: "flex-start", mb: 1 }}>
+											<Box
+												sx={{
+													width: "8px",
+													height: "8px",
+													borderRadius: "50%",
+													bgcolor: event.color || "#4CAF50",
+													mt: 0.8,
+													mr: 1,
+													flexShrink: 0,
+												}}
+											/>
+											<Typography
+												variant="h6"
+												sx={{
+													color: "#333",
+													fontWeight: 600,
+													fontSize: "1.1rem",
+													lineHeight: 1.3,
+												}}
+											>
+												{event.title}
+											</Typography>
+										</Box>
+										{event.time && (
+											<Typography
+												variant="body2"
+												sx={{
+													color: "#666",
+													fontSize: "0.875rem",
+													mt: 1,
+													display: "flex",
+													alignItems: "center",
+													gap: 0.5,
+												}}
+											>
+												⏰ {event.time}
+											</Typography>
+										)}
+										<Box sx={{ mt: "auto" }}>
+											<Button
+												sx={{
+													color: "#3B6866",
+													fontWeight: 600,
+													textTransform: "none",
+													fontSize: "0.9rem",
+													p: 0,
+													minWidth: "auto",
+													"&:hover": {
+														bgcolor: "transparent",
+														textDecoration: "underline",
+														textDecorationColor: "#F7CA02",
+													},
+												}}
+											>
+												Read More
+											</Button>
+										</Box>
 									</Box>
+								</Box>
 							</Box>
 						);
 					})}
-					</Box>
-				</Box>
-
-				{/* View All Events Link */}
-				<Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-					<Button
-						component={RouterLink}
-						to="/events"
-						variant="outlined"
-						endIcon={<ArrowForwardIcon />}
-						sx={{
-							color: "#3B6866",
-							borderColor: "#3B6866",
-							fontWeight: 600,
-							px: 4,
-							py: 1.5,
-							textTransform: "none",
-							fontSize: "1rem",
-							"&:hover": {
-								borderColor: "#3B6866",
-								bgcolor: "#3B6866",
-								color: "white",
-							},
-						}}
-					>
-						View All Events
-					</Button>
 				</Box>
 			</Container>
 
@@ -366,7 +325,9 @@ const EventsSection = observer(() => {
 				<DialogContent sx={{ mt: 2 }}>
 					<Box sx={{ mb: 2 }}>
 						<Typography variant="body1" color="text.secondary" gutterBottom>
-							📅 <strong>Date:</strong> {selectedEvent?.date}
+							📅 <strong>Date:</strong> {selectedEvent?.isRange && selectedEvent?.endDate
+								? `${selectedEvent?.date} to ${selectedEvent?.endDate}`
+								: selectedEvent?.date}
 						</Typography>
 						<Typography variant="body1" color="text.secondary" gutterBottom>
 							⏰ <strong>Time:</strong> {selectedEvent?.time}

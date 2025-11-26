@@ -15,21 +15,26 @@ const REFRESH_TOKEN_EXPIRES_IN = "7d";
 router.use(cookieParser());
 
 function generateTokens(user) {
-  const accessToken = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
-  const refreshToken = jwt.sign({ id: user.id, email: user.email }, JWT_REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
+  const accessToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: ACCESS_TOKEN_EXPIRES_IN });
+  const refreshToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_REFRESH_SECRET, { expiresIn: REFRESH_TOKEN_EXPIRES_IN });
   return { accessToken, refreshToken };
 }
 
 router.post("/register", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, name, role } = req.body;
   if (!email || !password) return res.status(400).json({ error: "Missing fields" });
+  
+  // Validate role if provided
+  const validRoles = ['admin', 'teacher', 'student'];
+  const userRole = role && validRoles.includes(role) ? role : 'student';
+  
   const existing = await User.findOne({ email });
   if (existing) return res.status(400).json({ error: "Email already exists" });
   const hashed = await bcrypt.hash(password, 2);
-  const user = await User.create({ email, password: hashed });
+  const user = await User.create({ email, password: hashed, name, role: userRole });
   const { accessToken, refreshToken } = generateTokens(user);
   res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: true, sameSite: "strict", maxAge: 7 * 24 * 60 * 60 * 1000 });
-  res.json({ accessToken });
+  res.json({ accessToken, user: { id: user._id, email: user.email, name: user.name, role: user.role } });
 });
 
 router.post("/login", async (req, res) => {
@@ -38,7 +43,7 @@ router.post("/login", async (req, res) => {
   if (!user || !(await bcrypt.compare(password, user.password))) return res.status(401).json({ error: "Invalid credentials" });
   const { accessToken, refreshToken } = generateTokens(user);
   res.cookie("refreshToken", refreshToken, { httpOnly: true, secure: true, sameSite: "strict", maxAge: 7 * 24 * 60 * 60 * 1000 });
-  res.json({ accessToken });
+  res.json({ accessToken, user: { id: user._id, email: user.email, name: user.name, role: user.role } });
 });
 
 router.post("/refresh", async (req, res) => {

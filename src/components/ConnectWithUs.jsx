@@ -18,6 +18,16 @@ const ConnectWithUs = observer(() => {
 	const FACEBOOK_PAGE_ID = import.meta.env.VITE_FACEBOOK_PAGE_ID;
 
 	useEffect(() => {
+		// Debug: Check if environment variables are loaded
+		console.log("Environment Variables Check:", {
+			hasInstagramToken: !!INSTAGRAM_TOKEN,
+			hasInstagramUserId: !!INSTAGRAM_USER_ID,
+			hasFacebookToken: !!FACEBOOK_TOKEN,
+			hasFacebookPageId: !!FACEBOOK_PAGE_ID,
+			instagramTokenPrefix: INSTAGRAM_TOKEN?.substring(0, 10),
+			facebookTokenPrefix: FACEBOOK_TOKEN?.substring(0, 10)
+		});
+		
 		// Fetch both Instagram and Facebook posts
 		socialMediaStore.fetchInstagramPosts(INSTAGRAM_TOKEN, INSTAGRAM_USER_ID);
 		socialMediaStore.fetchFacebookPosts(FACEBOOK_TOKEN, FACEBOOK_PAGE_ID);

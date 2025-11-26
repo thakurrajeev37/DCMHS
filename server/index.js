@@ -8,6 +8,8 @@ import morgan from "morgan";
 import { healthCheck } from "./controllers/healthController.js";
 import authRoutes from "./routes/auth.js";
 import userRouter from './routes/user.js';
+import adminRoutes from './routes/admin.js';
+import eventsRoutes from './routes/events.js';
 // SSR moved into dedicated route module
 import { createSsrMiddleware } from "./routes/ssrRoute.js";
 import { initViteDevServer, initProdStatic } from "./utils/viteHelpers.js";
@@ -50,6 +52,10 @@ async function createServer() {
 	app.use("/api/auth", authRoutes);
 	// User profile endpoints
 	app.use('/api/user', userRouter);
+	// Admin & role-based endpoints
+	app.use('/api/admin', adminRoutes);
+	// Events endpoints
+	app.use('/api/events', eventsRoutes);
 	// Health endpoints (must come before SSR catch-all)
 	app.get("/healthcheck", healthCheck);
 

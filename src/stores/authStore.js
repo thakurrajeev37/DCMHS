@@ -12,6 +12,7 @@ class AuthStore {
     // Rehydrate user from token if available (browser only)
     if (typeof window !== "undefined" && this.accessToken) {
       this.user = this.parseJwt(this.accessToken);
+      console.log("AuthStore initialized with user:", this.user);
     }
   }
 
@@ -20,12 +21,17 @@ class AuthStore {
     this.error = null;
     try {
       const res = await axios.post("/api/auth/login", { email, password }, { withCredentials: true });
+      console.log("=== LOGIN RESPONSE ===");
+      console.log("Server response:", res.data);
       runInAction(() => {
         this.accessToken = res.data.accessToken;
         if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
           localStorage.setItem("accessToken", this.accessToken);
         }
-        this.user = this.parseJwt(this.accessToken);
+        // Use user data from response if available, otherwise parse JWT
+        this.user = res.data.user || this.parseJwt(this.accessToken);
+        console.log("User set to:", this.user);
+        console.log("User role:", this.user?.role);
       });
     } catch (err) {
       runInAction(() => {
@@ -36,17 +42,18 @@ class AuthStore {
     }
   }
 
-  async register(email, password) {
+  async register(email, password, name, role) {
     this.loading = true;
     this.error = null;
     try {
-      const res = await axios.post("/api/auth/register", { email, password }, { withCredentials: true });
+      const res = await axios.post("/api/auth/register", { email, password, name, role }, { withCredentials: true });
       runInAction(() => {
         this.accessToken = res.data.accessToken;
         if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
           localStorage.setItem("accessToken", this.accessToken);
         }
-        this.user = this.parseJwt(this.accessToken);
+        // Use user data from response if available, otherwise parse JWT
+        this.user = res.data.user || this.parseJwt(this.accessToken);
       });
     } catch (err) {
       runInAction(() => {
@@ -66,6 +73,7 @@ class AuthStore {
           localStorage.setItem("accessToken", this.accessToken);
         }
         this.user = this.parseJwt(this.accessToken);
+        console.log("Token refreshed, user data:", this.user);
       });
     } catch {
       this.logout();
@@ -88,6 +96,14 @@ class AuthStore {
   async checkAuth() {
     if (!this.accessToken) {
       await this.refresh();
+    } else {
+      // Ensure user data is parsed from token
+      if (!this.user && this.accessToken) {
+        runInAction(() => {
+          this.user = this.parseJwt(this.accessToken);
+          console.log("checkAuth - Parsed user from token:", this.user);
+        });
+      }
     }
   }
 

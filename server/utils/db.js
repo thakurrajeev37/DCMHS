@@ -5,10 +5,10 @@ import mongoose from "mongoose";
  * Reads URI from process.env.MONGO_URI. Throws if missing.
  */
 export async function connectMongo({ retries = 3, delayMs = 1000 } = {}) {
-  const uri = process.env.MONGO_URI || 'mongodb+srv://thakurrajeev37_db_user:KpB0t51tqDfB5rkl@cluster0.nr6xw0j.mongodb.net/school-db?retryWrites=true&w=majority';
+  const uri = process.env.MONGODB_URI;
   if (!uri) {
-    console.error("[Mongo] Missing MONGO_URI environment variable.");
-    throw new Error("MONGO_URI environment variable is required for database connection");
+    console.error("[Mongo] Missing MONGODB_URI environment variable.");
+    throw new Error("MONGODB_URI environment variable is required for database connection");
   }
 
   let attempt = 0;

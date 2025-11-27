@@ -3,8 +3,8 @@ import { Container, Typography, Box, Paper } from "@mui/material";
 
 const FounderSection = () => {
 	return (
-		<Box sx={{ bgcolor: "#f9f9f9", py: { xs: 4, md: 8 } }}>
-			<Container maxWidth="lg">
+		<Box sx={{ bgcolor: "#f9f9f9", py: { xs: 4, md: 8 }, width: "100%", overflow: "hidden" }}>
+			<Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
 				<Typography 
 					variant="h3" 
 					component="h2" 

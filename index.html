@@ -6,9 +6,32 @@
     <meta name="color-scheme" content="light dark" />
     <title>D.C. Modern High School</title>
     <style>
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        width: 100%;
+      }
       body {
         margin: 0;
         padding: 0;
+        overflow-x: hidden;
+        max-width: 100vw;
+        width: 100%;
+      }
+      #root {
+        overflow-x: hidden;
+        max-width: 100vw;
+        width: 100%;
+      }
+      img, video, iframe {
+        max-width: 100%;
+        height: auto;
+      }
+      .MuiContainer-root {
+        max-width: 100% !important;
       }
     </style>
     <!--app-head-->

@@ -63,8 +63,8 @@ const EventsSection = observer(() => {
 		});
 
 	return (
-		<Box sx={{ bgcolor: "white", py: { xs: 4, md: 8 } }}>
-			<Container maxWidth="lg">
+		<Box sx={{ bgcolor: "white", py: { xs: 4, md: 8 }, width: "100%", overflow: "hidden" }}>
+			<Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
 				<Typography 
 					variant="h3" 
 					component="h2" 
@@ -100,7 +100,31 @@ const EventsSection = observer(() => {
 					</Button>
 				</Box>
 
-				<Box sx={{ display: "flex", gap: 2, overflowX: "auto", pb: 2 }}>
+				<Box 
+					ref={scrollContainerRef}
+					sx={{ 
+						display: "flex", 
+						gap: 2, 
+						overflowX: "auto", 
+						pb: 2,
+						px: { xs: 1, md: 0 },
+						scrollBehavior: "smooth",
+						"&::-webkit-scrollbar": {
+							height: 8
+						},
+						"&::-webkit-scrollbar-track": {
+							bgcolor: "#f1f1f1",
+							borderRadius: 4
+						},
+						"&::-webkit-scrollbar-thumb": {
+							bgcolor: "#3B6866",
+							borderRadius: 4,
+							"&:hover": {
+								bgcolor: "#2d5a58"
+							}
+						}
+					}}
+				>
 					{futureEvents.map((event) => {
 						if (!event.date) return null;
 						
@@ -123,7 +147,8 @@ const EventsSection = observer(() => {
 							<Box
 								key={event._id}
 								sx={{
-									minWidth: { xs: "250px", md: "280px" },
+									minWidth: { xs: "240px", sm: "260px", md: "280px" },
+									maxWidth: { xs: "calc(100vw - 48px)" },
 									cursor: "pointer",
 									"&:hover": {
 										"& .event-card": {

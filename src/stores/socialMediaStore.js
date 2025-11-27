@@ -49,7 +49,7 @@ class SocialMediaStore {
 					params: {
 						fields: 'id,message,created_time,full_picture,permalink_url,attachments{media,type,url}',
 						access_token: accessToken,
-						limit: 8 // Fetch 8 Facebook posts
+						limit: 4 // Fetch 4 Facebook posts
 					}
 				}
 			);
@@ -115,7 +115,7 @@ class SocialMediaStore {
 					params: {
 						fields: 'id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count',
 						access_token: accessToken,
-						limit: 8 // Fetch 8 posts initially
+						limit: 4 // Fetch 4 posts initially
 					}
 				}
 			);

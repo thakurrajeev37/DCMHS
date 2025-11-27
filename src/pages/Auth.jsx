@@ -8,7 +8,7 @@ export default function Auth() {
 
   return (
     <Box display="flex" justifyContent="center" alignItems="center" minHeight="60vh">
-      <Paper elevation={3} sx={{ p: 4, minWidth: 350 }}>
+      <Paper elevation={3} sx={{ p: { xs: 3, sm: 4 }, minWidth: { xs: 280, sm: 350 }, maxWidth: "90vw" }}>
         <Box mb={2} display="flex" justifyContent="center">
           <ToggleButtonGroup
             value={mode}

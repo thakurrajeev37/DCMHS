@@ -10,8 +10,8 @@ import ConnectWithoutContactIcon from "@mui/icons-material/ConnectWithoutContact
 
 const ContactUs = () => {
 	return (
-		<Box component="section" aria-labelledby="contact-heading" sx={{ py: { xs: 4, md: 8 }, bgcolor: "#f5f5f5" }}>
-			<Container maxWidth="lg">
+		<Box component="section" aria-labelledby="contact-heading" sx={{ py: { xs: 4, md: 8 }, bgcolor: "#f5f5f5", width: "100%", overflow: "hidden" }}>
+			<Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
 				<Typography 
 					id="contact-heading"
 					variant="h3" 

@@ -75,8 +75,8 @@ const ConnectWithUs = observer(() => {
 	console.log("Filtered Posts:", filteredPosts.length);
 
 	return (
-		<Box sx={{ py: { xs: 4, md: 8 }, bgcolor: "white" }}>
-			<Container maxWidth="lg">
+		<Box sx={{ py: { xs: 4, md: 8 }, bgcolor: "white", width: "100%", overflow: "hidden" }}>
+			<Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
 				<Typography 
 					variant="h3" 
 					component="h2" 
@@ -217,9 +217,11 @@ const ConnectWithUs = observer(() => {
 							gridTemplateColumns: {
 								xs: "1fr",
 								sm: "repeat(2, 1fr)",
-								md: "repeat(4, 1fr)"
+								md: "repeat(3, 1fr)",
+								lg: "repeat(4, 1fr)"
 							},
-							gap: 3
+							gap: { xs: 2, sm: 3 },
+							px: { xs: 1, sm: 0 }
 						}}
 					>
 						{filteredPosts.map((post) => (

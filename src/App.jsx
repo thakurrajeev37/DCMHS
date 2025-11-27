@@ -20,11 +20,13 @@ function AppImpl() {
 				display: "flex",
 				flexDirection: "column",
 				minHeight: "100vh",
+				maxWidth: "100vw",
+				overflowX: "hidden",
 			}}
 		>
 			<Header />
-			<main style={{ flex: 1 }}>
-				<div>{element}</div>
+			<main style={{ flex: 1, width: "100%", overflowX: "hidden" }}>
+				<div style={{ width: "100%", overflowX: "hidden" }}>{element}</div>
 			</main>
 			<Footer />
 		</div>

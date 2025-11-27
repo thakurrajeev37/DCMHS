@@ -15,11 +15,13 @@ const Footer = () => {
 				color: "white",
 				pt: 6,
 				pb: 3,
-				mt: 8
+				mt: 8,
+				width: "100%",
+				overflow: "hidden"
 			}}
 		>
-			<Container maxWidth="lg">
-				<Grid container spacing={4}>
+			<Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
+				<Grid container spacing={{ xs: 3, sm: 4 }}>
 					{/* About Section */}
 					<Grid item xs={12} md={4}>
 						<Typography

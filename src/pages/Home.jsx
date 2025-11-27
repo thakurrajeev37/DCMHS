@@ -6,7 +6,9 @@ import { useHomeStore } from "../stores/rootStores.js";
 import { Container, Typography, Box, Paper, Stack } from "@mui/material";
 import BannerSection from "../components/BannerSection.jsx";
 import FounderSection from "../components/FounderSection.jsx";
+import QuickFacts from "../components/QuickFacts.jsx";
 import EventsSection from "../components/EventsSection.jsx";
+import PhotoGallery from "../components/PhotoGallery.jsx";
 import ConnectWithUs from "../components/ConnectWithUs.jsx";
 import ContactUs from "../components/ContactUs.jsx";
 
@@ -23,14 +25,28 @@ const Home = observer(function Home() {
 			{/* Founder's Message Section */}
 			<FounderSection />
 
+			{/* Quick Facts Section */}
+			<QuickFacts />
+
 		{/* School Events Section */}
-		<EventsSection />
+		<Box sx={{ bgcolor: '#F9F9F9', width: '100%', overflowX: 'hidden' }}>
+			<EventsSection />
+		</Box>
+
+		{/* Photo Gallery Section */}
+		<Box sx={{ bgcolor: '#FFFFFF', width: '100%', overflowX: 'hidden' }}>
+			<PhotoGallery />
+		</Box>
 
 		{/* Connect With Us Section */}
-		<ConnectWithUs />
+		<Box sx={{ bgcolor: '#F5F5F5', width: '100%', overflowX: 'hidden' }}>
+			<ConnectWithUs />
+		</Box>
 
 		{/* Contact Us Section */}
-		<ContactUs />
+		<Box sx={{ bgcolor: '#FAFAFA', width: '100%', overflowX: 'hidden' }}>
+			<ContactUs />
+		</Box>
 
 	</>
 	);

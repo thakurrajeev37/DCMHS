@@ -32,8 +32,8 @@ function Header() {
 	}
 
 	return (
-		<AppBar position="sticky" sx={{ bgcolor: "#3B6866" }}>
-			<Toolbar variant="regular" sx={{ gap: 2 }}>
+		<AppBar position="sticky" sx={{ bgcolor: "#3B6866", width: "100%", maxWidth: "100vw" }}>
+			<Toolbar variant="regular" sx={{ gap: { xs: 1, sm: 2 }, px: { xs: 1, sm: 2 } }}>
 				<Box
 					component={RouterLink}
 					to="/"
@@ -51,7 +51,7 @@ function Header() {
 						component="img"
 						src="/logo.png"
 						alt="D.C. Modern High School Logo"
-						sx={{ height: 60, borderRadius: "50%" }}
+						sx={{ height: { xs: 50, sm: 60 }, borderRadius: "50%", flexShrink: 0 }}
 					/>
 					<Typography variant="h6" component="div" sx={{ display: { xs: "none", md: "block" } }}>
 						D.C. Modern High School

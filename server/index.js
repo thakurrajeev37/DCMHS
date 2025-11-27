@@ -1,7 +1,24 @@
+import dotenv from 'dotenv';
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from 'node:url';
 import express from "express";
 import mongoose from "mongoose";
+
+// Load environment-specific config
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const env = process.env.NODE_ENV || 'development';
+const envFile = path.resolve(__dirname, `../.env.${env}`);
+
+// Load env file if exists, otherwise use .env
+if (fs.existsSync(envFile)) {
+	dotenv.config({ path: envFile });
+	console.log(`[Env] Loaded environment config from .env.${env}`);
+} else {
+	dotenv.config();
+	console.log(`[Env] Loaded environment config from .env`);
+}
 import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
@@ -16,7 +33,6 @@ import { initViteDevServer, initProdStatic } from "./utils/viteHelpers.js";
 import { connectMongo } from "./utils/db.js";
 
 const isProd = process.env.NODE_ENV === "production";
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 async function createServer() {
 	// Connect to MongoDB

@@ -7,6 +7,7 @@ import { Container, Typography, Box, Paper, Stack } from "@mui/material";
 import BannerSection from "../components/BannerSection.jsx";
 import FounderSection from "../components/FounderSection.jsx";
 import QuickFacts from "../components/QuickFacts.jsx";
+import FacultyStaff from "../components/FacultyStaff.jsx";
 import EventsSection from "../components/EventsSection.jsx";
 import PhotoGallery from "../components/PhotoGallery.jsx";
 import ConnectWithUs from "../components/ConnectWithUs.jsx";
@@ -25,15 +26,18 @@ const Home = observer(function Home() {
 			{/* Founder's Message Section */}
 			<FounderSection />
 
-			{/* Quick Facts Section */}
-			<QuickFacts />
+		{/* Quick Facts Section */}
+		<QuickFacts />
+
+		{/* Faculty & Staff Section */}
+		<Box sx={{ bgcolor: '#FFFFFF', width: '100%', overflowX: 'hidden' }}>
+			<FacultyStaff />
+		</Box>
 
 		{/* School Events Section */}
 		<Box sx={{ bgcolor: '#F9F9F9', width: '100%', overflowX: 'hidden' }}>
 			<EventsSection />
-		</Box>
-
-		{/* Photo Gallery Section */}
+		</Box>		{/* Photo Gallery Section */}
 		<Box sx={{ bgcolor: '#FFFFFF', width: '100%', overflowX: 'hidden' }}>
 			<PhotoGallery />
 		</Box>

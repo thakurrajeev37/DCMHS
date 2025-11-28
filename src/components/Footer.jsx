@@ -115,19 +115,6 @@ const Footer = () => {
 								Home
 							</Link>
 							<Link
-								href="/about"
-								sx={{
-									color: "#999",
-									textDecoration: "none",
-									fontSize: "0.875rem",
-									"&:hover": {
-										color: "white"
-									}
-								}}
-							>
-								About Us
-							</Link>
-							<Link
 								href="/admissions"
 								sx={{
 									color: "#999",

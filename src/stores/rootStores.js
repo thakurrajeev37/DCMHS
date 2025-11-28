@@ -1,5 +1,4 @@
 import { createHomeStore } from "./homeStore.js";
-import { createAboutStore } from "./aboutStore.js";
 import { createAppStore } from "./appStore.js";
 import EventsStore from "./eventsStore.js";
 import SocialMediaStore from "./socialMediaStore.js";
@@ -10,7 +9,6 @@ export function createRootStores(initial = {}) {
 	return {
 		app: createAppStore(initial.app || {}),
 		home: createHomeStore(initial.home || {}),
-		about: createAboutStore(initial.about || {}),
 		events: new EventsStore(),
 		socialMedia: new SocialMediaStore(),
 	};
@@ -19,9 +17,6 @@ export function createRootStores(initial = {}) {
 // Hooks for individual page stores (used inside components)
 export function useHomeStore() {
 	return useStore().home;
-}
-export function useAboutStore() {
-	return useStore().about;
 }
 export function useAppStore() {
 	return useStore().app;

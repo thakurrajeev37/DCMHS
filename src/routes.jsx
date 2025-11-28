@@ -1,5 +1,4 @@
 import Home from "./pages/Home.jsx";
-import About from "./pages/About.jsx";
 import Auth from "./pages/Auth.jsx";
 import Events from "./pages/Events.jsx";
 import NotFound from "./pages/NotFound.jsx";
@@ -16,7 +15,6 @@ import DashboardLayout from "./components/DashboardLayout.jsx";
 
 const routes = [
 	{ path: "/", element: <Home /> },
-	{ path: "/about", element: <About /> },
 	{ path: "/events", element: <Events /> },
 	{ path: "/auth", element: <Auth /> },
 	{ 

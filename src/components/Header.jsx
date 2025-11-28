@@ -20,7 +20,6 @@ function Header() {
 
 	const menuItems = [
 		{ label: "Home", path: "/" },
-		{ label: "About Us", path: "/about" },
 		{ label: "Events", path: "/events" },
 	];
 
@@ -79,15 +78,6 @@ function Header() {
 						sx={{ "&:hover": { textDecoration: "underline", textDecorationColor: "#F7CA02" } }}
 					>
 						Home
-					</Button>
-					<Button
-						component={RouterLink}
-						to="/about"
-						color="inherit"
-						size="small"
-						sx={{ "&:hover": { textDecoration: "underline", textDecorationColor: "#F7CA02" } }}
-					>
-						About Us
 					</Button>
 					<Button
 						component={RouterLink}

@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Typography, Box } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 
 const BannerSection = () => {
+	const [scrollY, setScrollY] = useState(0);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			setScrollY(window.scrollY);
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+
 	return (
 		<Box
 			sx={{
@@ -20,7 +31,7 @@ const BannerSection = () => {
 				maxWidth: "100vw"
 			}}
 		>
-			{/* Background Image */}
+			{/* Background Image with Parallax */}
 			<Box
 				sx={{
 					position: "absolute",
@@ -31,10 +42,12 @@ const BannerSection = () => {
 					background: "url('/school-banner.jpg') center/cover",
 					clipPath: { xs: "none", md: "ellipse(70% 100% at 100% 50%)" },
 					opacity: { xs: 0.3, md: 0.9 },
+					transform: `translateY(${scrollY * 0.5}px)`,
+					transition: 'transform 0.1s ease-out',
 				}}
 			/>
 
-			{/* Decorative Dots */}
+			{/* Decorative Dots with Parallax */}
 			<Box
 				sx={{
 					position: "absolute",
@@ -45,6 +58,8 @@ const BannerSection = () => {
 					borderRadius: "50%",
 					bgcolor: "white",
 					display: { xs: "none", md: "block" },
+					transform: `translateY(${scrollY * 0.3}px)`,
+					transition: 'transform 0.1s ease-out',
 				}}
 			/>
 			<Box
@@ -57,6 +72,8 @@ const BannerSection = () => {
 					borderRadius: "50%",
 					bgcolor: "white",
 					display: { xs: "none", md: "block" },
+					transform: `translateY(${scrollY * 0.4}px)`,
+					transition: 'transform 0.1s ease-out',
 				}}
 			/>
 

@@ -306,7 +306,9 @@ const ContactUs = () => {
 						sx={{ 
 							width: { xs: "100%", md: "55%" },
 							height: { xs: 400, md: "auto" },
-							minHeight: { xs: 400, md: 500 }
+							minHeight: { xs: 400, md: 500 },
+							display: "flex",
+							position: "relative"
 						}}
 					>
 						<iframe
@@ -314,7 +316,7 @@ const ContactUs = () => {
 							src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3365.871186590754!2d75.818641!3d32.476137!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391c877792ef6a7d%3A0xb2054650714b7f31!2sD.%20C.%20Modern%20High%20School%20Gura%20Nagrota!5e0!3m2!1sen!2sus!4v1763771960508!5m2!1sen!2sus"
 							width="100%"
 							height="100%"
-							style={{ border: 0 }}
+							style={{ border: 0, display: "block", width: "100%", height: "100%" }}
 							allowFullScreen=""
 							loading="lazy"
 							referrerPolicy="no-referrer-when-downgrade"

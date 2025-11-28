@@ -83,6 +83,22 @@ const itemData = [
 const PhotoGallery = () => {
 	const [selectedImage, setSelectedImage] = useState(null);
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const [scrollY, setScrollY] = useState(0);
+	const sectionRef = React.useRef(null);
+	const [offsetTop, setOffsetTop] = useState(0);
+
+	React.useEffect(() => {
+		if (sectionRef.current) {
+			setOffsetTop(sectionRef.current.offsetTop);
+		}
+
+		const handleScroll = () => {
+			setScrollY(window.scrollY);
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
 
 	const handleImageClick = (item, index) => {
 		setSelectedImage(item);
@@ -105,16 +121,26 @@ const PhotoGallery = () => {
 		setSelectedImage(itemData[prevIndex]);
 	};
 
+	// Calculate parallax offset
+	const parallaxOffset = (scrollY - offsetTop) * 0.1;
+
 	return (
 		<Box
+			ref={sectionRef}
 			sx={{
 				py: { xs: 4, md: 6 },
-				bgcolor: "#F9F9F9"
+				bgcolor: "#F9F9F9",
+				position: "relative"
 			}}
 		>
 			<Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3 } }}>
 				{/* Header */}
-				<Box sx={{ textAlign: "center", mb: 5 }}>
+				<Box sx={{ 
+					textAlign: "center", 
+					mb: 5,
+					transform: scrollY > offsetTop - 400 ? `translateY(${parallaxOffset}px)` : 'none',
+					transition: 'transform 0.1s ease-out',
+				}}>
 					<Typography
 						variant="h2"
 						sx={{

@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container, Typography, Box, Paper } from "@mui/material";
 
 const FounderSection = () => {
+	const [scrollY, setScrollY] = useState(0);
+	const sectionRef = useRef(null);
+	const [offsetTop, setOffsetTop] = useState(0);
+
+	useEffect(() => {
+		if (sectionRef.current) {
+			setOffsetTop(sectionRef.current.offsetTop);
+		}
+
+		const handleScroll = () => {
+			setScrollY(window.scrollY);
+		};
+
+		window.addEventListener('scroll', handleScroll, { passive: true });
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, []);
+
+	// Calculate parallax offset relative to section position
+	const parallaxOffset = (scrollY - offsetTop) * 0.15;
+
 	return (
-		<Box sx={{ bgcolor: "#f9f9f9", py: { xs: 4, md: 8 }, width: "100%", overflow: "hidden" }}>
+		<Box ref={sectionRef} sx={{ bgcolor: "#f9f9f9", py: { xs: 4, md: 8 }, width: "100%", overflow: "hidden", position: "relative" }}>
 			<Container maxWidth="lg" sx={{ px: { xs: 2, sm: 3 } }}>
 				<Typography 
 					variant="h3" 
@@ -14,7 +34,9 @@ const FounderSection = () => {
 						mb: 4,
 						color: "#3B6866",
 						fontWeight: "bold",
-						fontSize: { xs: "1.75rem", md: "2.5rem" }
+						fontSize: { xs: "1.75rem", md: "2.5rem" },
+						transform: scrollY > offsetTop - 400 ? `translateY(${parallaxOffset}px)` : 'none',
+						transition: 'transform 0.1s ease-out',
 					}}
 				>
 					Insights from Our Founder & Visionary
@@ -34,6 +56,8 @@ const FounderSection = () => {
 							display: "flex",
 							flexDirection: "column",
 							alignItems: "center",
+							transform: scrollY > offsetTop - 400 ? `translateY(${parallaxOffset * 0.5}px)` : 'none',
+							transition: 'transform 0.1s ease-out',
 						}}
 					>
 						<Box

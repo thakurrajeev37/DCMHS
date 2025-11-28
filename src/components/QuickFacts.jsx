@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, Container, Typography, Paper } from '@mui/material';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import SchoolIcon from '@mui/icons-material/School';
@@ -8,6 +8,36 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import PeopleIcon from '@mui/icons-material/People';
 
 const QuickFacts = () => {
+  const [scrollY, setScrollY] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+  const [offsetTop, setOffsetTop] = useState(0);
+
+  useEffect(() => {
+    if (sectionRef.current) {
+      setOffsetTop(sectionRef.current.offsetTop);
+    }
+
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+      
+      // Check if section is in viewport
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
+        if (inView && !isVisible) {
+          setIsVisible(true);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check initial position
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [isVisible]);
+
+  const parallaxOffset = (scrollY - offsetTop) * 0.15;
+
   const sections = [
     {
       title: 'Transportation',
@@ -16,7 +46,7 @@ const QuickFacts = () => {
       position: 'top-left',
       stats: [
         'Daily bus service covering',
-        '15+ routes',
+        '5+ routes',
         'Safe and secure transportation',
         'for all students'
       ]
@@ -64,7 +94,7 @@ const QuickFacts = () => {
       position: 'right',
       stats: [
         'Nursery to 10th grade',
-        '25:1 student-teacher ratio',
+        '20:1 student-teacher ratio',
         'Co-educational environment',
         'Inclusive learning'
       ]
@@ -85,6 +115,7 @@ const QuickFacts = () => {
 
   return (
     <Box 
+      ref={sectionRef}
       sx={{ 
         py: { xs: 4, md: 6 }, 
         bgcolor: '#FAFAFA',
@@ -95,7 +126,13 @@ const QuickFacts = () => {
     >
       <Container maxWidth="xl" sx={{ px: { xs: 2, sm: 3 } }}>
         {/* Header */}
-        <Box sx={{ textAlign: 'center', mb: 5 }}>
+        <Box sx={{ 
+          textAlign: 'center', 
+          mb: 5,
+          transform: isVisible ? `translateY(${parallaxOffset}px)` : 'translateY(50px)',
+          opacity: isVisible ? 1 : 0,
+          transition: 'all 0.8s ease-out',
+        }}>
           <Typography
             variant="h2"
             sx={{
@@ -156,7 +193,9 @@ const QuickFacts = () => {
               position: { xs: 'relative', md: 'absolute' },
               top: { md: '50%' },
               left: { md: '50%' },
-              transform: { md: 'translate(-50%, -50%)' },
+              transform: isVisible 
+                ? { xs: 'scale(1)', md: `translate(-50%, -50%) translateY(${parallaxOffset * 0.5}px)` }
+                : { xs: 'scale(0.8)', md: 'translate(-50%, -50%) scale(0.8)' },
               width: { xs: 200, sm: 220, md: 220 },
               height: { xs: 200, sm: 220, md: 220 },
               borderRadius: '50%',
@@ -168,8 +207,10 @@ const QuickFacts = () => {
               p: { xs: 2, md: 3 },
               mx: 'auto',
               zIndex: 2,
+              opacity: isVisible ? 1 : 0,
               boxShadow: '0 6px 24px rgba(59, 104, 102, 0.3)',
-              border: '4px solid white'
+              border: '4px solid white',
+              transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)'
             }}
           >
             <SchoolIcon sx={{ fontSize: { xs: 50, md: 60 }, color: 'white', mb: { xs: 1, md: 1.5 } }} />
@@ -238,6 +279,8 @@ const QuickFacts = () => {
             };
 
             const IconComponent = section.icon;
+            const cardParallax = parallaxOffset * (0.3 + index * 0.1);
+            const delay = index * 0.1;
             
             return (
               <Paper
@@ -251,9 +294,13 @@ const QuickFacts = () => {
                   borderRadius: 3,
                   border: `2px solid ${section.color}`,
                   zIndex: 1,
-                  transition: 'all 0.3s ease',
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible 
+                    ? { xs: 'none', md: `translateY(${cardParallax}px)` }
+                    : { xs: 'translateY(30px)', md: 'translateY(50px)' },
+                  transition: `all 0.8s ease-out ${delay}s`,
                   '&:hover': {
-                    transform: { sm: 'translateY(-5px)', md: 'scale(1.05)' },
+                    transform: { sm: 'translateY(-5px)', md: `translateY(${cardParallax}px) scale(1.05)` },
                     boxShadow: `0 10px 24px ${section.color}40`,
                     zIndex: 3
                   }

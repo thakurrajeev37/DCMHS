@@ -12,8 +12,7 @@
 		"lint": "biome lint .",
 		"format": "biome format . --write",
 		"predeploy": "GITHUB_PAGES=true npm run build:static",
-		"deploy": "gh-pages -d dist/client",
-		"vercel-build": "npm run build"
+		"deploy": "gh-pages -d dist/client"
 	},
 	"dependencies": {
 		"@emotion/react": "^11.13.0",
@@ -43,7 +42,8 @@
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-router-dom": "^6.30.1",
-		"react-social-media-embed": "^2.5.18"
+		"react-social-media-embed": "^2.5.18",
+		"xlsx": "^0.18.5"
 	},
 	"optionalDependencies": {
 		"pino-pretty": "^11.2.2"

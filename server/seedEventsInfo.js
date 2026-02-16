@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const events = [
+export const events = [
 	{
 		title: "Diwali Celebration 🪔",
-		date: "2024-11-01",
+		date: "2026-10-20",
 		isRange: false,
 		location: "School Auditorium",
 		shortDesc: "Celebrate the festival of lights with traditional performances and activities",
@@ -13,7 +13,7 @@ const events = [
 	},
 	{
 		title: "Thanksgiving Day 🦃",
-		date: "2024-11-28",
+		date: "2026-11-26",
 		isRange: false,
 		location: "School Campus",
 		shortDesc: "A day of gratitude and community gathering",
@@ -23,7 +23,7 @@ const events = [
 	},
 	{
 		title: "Annual Sports Day 🏆",
-		date: "2024-12-10",
+		date: "2026-12-10",
 		isRange: false,
 		location: "Sports Ground",
 		shortDesc: "Inter-house sports competition with exciting events and activities",
@@ -33,7 +33,7 @@ const events = [
 	},
 	{
 		title: "Science Exhibition 🔬",
-		date: "2024-12-15",
+		date: "2026-12-15",
 		isRange: false,
 		location: "Science Labs & Exhibition Hall",
 		shortDesc: "Students showcase innovative science projects and experiments",
@@ -43,17 +43,18 @@ const events = [
 	},
 	{
 		title: "Winter Break ❄️",
-		date: "2024-12-20",
+		date: "2026-12-20",
+		endDate: "2027-01-05",
 		isRange: true,
 		location: "School Closed",
 		shortDesc: "Winter holidays - school closed",
-		fullDesc: "School will be closed for winter break. Classes will resume in January. Have a wonderful holiday season with your families!",
+		fullDesc: "School will be closed for winter break. Classes will resume on January 5th. Have a wonderful holiday season with your families!",
 		time: "All Day",
 		color: "#00BCD4"
 	},
 	{
 		title: "Parent-Teacher Meeting 👨‍👩‍👧‍👦",
-		date: "2025-01-15",
+		date: "2027-01-15",
 		isRange: false,
 		location: "Classrooms",
 		shortDesc: "Meet with teachers to discuss student progress and academic goals",
@@ -63,13 +64,24 @@ const events = [
 	},
 	{
 		title: "Cultural Festival 🎭",
-		date: "2025-02-14",
+		date: "2027-02-14",
 		isRange: false,
 		location: "School Auditorium & Campus",
 		shortDesc: "Celebrate diversity with performances, food stalls, and cultural exhibitions",
 		fullDesc: "A day-long celebration of our diverse school community. Experience cultural performances, traditional music and dance, international food stalls, and art exhibitions. All families are welcome to participate and share their cultural heritage.",
 		time: "10:00 AM - 6:00 PM",
 		color: "#E91E63"
+	},
+	{
+		title: "Summer Camp 🏕️",
+		date: "2027-05-25",
+		endDate: "2027-06-06",
+		isRange: true,
+		location: "School Campus & Outdoor Grounds",
+		shortDesc: "Two-week adventure camp with sports, arts, and outdoor activities",
+		fullDesc: "An exciting two-week summer camp packed with outdoor adventures, sports tournaments, art workshops, swimming, nature hikes, and team-building activities. Open to students of all grades. Lunch and snacks will be provided daily.",
+		time: "8:00 AM - 4:00 PM",
+		color: "#FF5722"
 	}
 ];
 

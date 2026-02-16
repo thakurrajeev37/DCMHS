@@ -210,21 +210,10 @@ const FacultyStaff = () => {
 									src={chairman.image}
 									alt={chairman.name}
 									onError={(e) => {
-										e.target.style.display = 'none';
-										e.target.parentElement.innerHTML = `
-											<div style="
-												width: 100%;
-												height: 100%;
-												display: flex;
-												align-items: center;
-												justify-content: center;
-												background: linear-gradient(135deg, #003049 0%, #001f2e 100%);
-											">
-												<svg style="width: 60%; height: 60%; opacity: 0.3;" fill="white" viewBox="0 0 24 24">
-													<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-												</svg>
-											</div>
-										`;
+										e.target.src = '/logo.png';
+										e.target.style.objectFit = 'contain';
+										e.target.style.padding = '15%';
+										e.target.style.background = 'linear-gradient(135deg, #003049 0%, #001f2e 100%)';
 									}}
 									sx={{
 										width: "100%",
@@ -327,21 +316,10 @@ const FacultyStaff = () => {
 									src={principal.image}
 									alt={principal.name}
 									onError={(e) => {
-										e.target.style.display = 'none';
-										e.target.parentElement.innerHTML = `
-											<div style="
-												width: 100%;
-												height: 100%;
-												display: flex;
-												align-items: center;
-												justify-content: center;
-												background: linear-gradient(135deg, #003049 0%, #001f2e 100%);
-											">
-												<svg style="width: 60%; height: 60%; opacity: 0.3;" fill="white" viewBox="0 0 24 24">
-													<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-												</svg>
-											</div>
-										`;
+										e.target.src = '/logo.png';
+										e.target.style.objectFit = 'contain';
+										e.target.style.padding = '15%';
+										e.target.style.background = 'linear-gradient(135deg, #003049 0%, #001f2e 100%)';
 									}}
 									sx={{
 										width: "100%",
@@ -445,21 +423,10 @@ const FacultyStaff = () => {
 									src={vicePrincipal.image}
 									alt={vicePrincipal.name}
 									onError={(e) => {
-										e.target.style.display = 'none';
-										e.target.parentElement.innerHTML = `
-											<div style="
-												width: 100%;
-												height: 100%;
-												display: flex;
-												align-items: center;
-												justify-content: center;
-												background: linear-gradient(135deg, #003049 0%, #001f2e 100%);
-											">
-												<svg style="width: 60%; height: 60%; opacity: 0.3;" fill="white" viewBox="0 0 24 24">
-													<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-												</svg>
-											</div>
-										`;
+										e.target.src = '/logo.png';
+										e.target.style.objectFit = 'contain';
+										e.target.style.padding = '15%';
+										e.target.style.background = 'linear-gradient(135deg, #003049 0%, #001f2e 100%)';
 									}}
 									sx={{
 										width: "100%",
@@ -588,21 +555,10 @@ const FacultyStaff = () => {
 											src={teacher.image}
 											alt={teacher.name}
 											onError={(e) => {
-												e.target.style.display = 'none';
-												e.target.parentElement.innerHTML = `
-													<div style="
-														width: 100%;
-														height: 100%;
-														display: flex;
-														align-items: center;
-														justify-content: center;
-														background: linear-gradient(135deg, #003049 0%, #001f2e 100%);
-													">
-														<svg style="width: 60%; height: 60%; opacity: 0.3;" fill="white" viewBox="0 0 24 24">
-															<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-														</svg>
-													</div>
-												`;
+												e.target.src = '/logo.png';
+												e.target.style.objectFit = 'contain';
+												e.target.style.padding = '15%';
+												e.target.style.background = 'linear-gradient(135deg, #003049 0%, #001f2e 100%)';
 											}}
 											sx={{
 												width: "100%",

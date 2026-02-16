@@ -2,9 +2,6 @@ import express from "express";
 import mongoose from "mongoose";
 import helmet from "helmet";
 import compression from "compression";
-import authRoutes from "../server/routes/auth.js";
-import userRouter from '../server/routes/user.js';
-import adminRoutes from '../server/routes/admin.js';
 import eventsRoutes from '../server/routes/events.js';
 import { healthCheck } from "../server/controllers/healthController.js";
 
@@ -56,12 +53,6 @@ app.use(async (req, res, next) => {
 	}
 });
 
-// Auth endpoints
-app.use("/api/auth", authRoutes);
-// User profile endpoints
-app.use('/api/user', userRouter);
-// Admin & role-based endpoints
-app.use('/api/admin', adminRoutes);
 // Events endpoints
 app.use('/api/events', eventsRoutes);
 // Health endpoints

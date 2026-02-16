@@ -4,12 +4,9 @@ import { AppBar, Toolbar, Typography, Button, Box, IconButton, Drawer, List, Lis
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { observer } from "mobx-react";
-import { authStore } from "../stores/authStore";
 
 function Header() {
-	const [mounted, setMounted] = React.useState(false);
 	const [drawerOpen, setDrawerOpen] = React.useState(false);
-	React.useEffect(() => { setMounted(true); }, []);
 	
 	const toggleDrawer = (open) => (event) => {
 		if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -22,13 +19,6 @@ function Header() {
 		{ label: "Home", path: "/" },
 		{ label: "Events", path: "/events" },
 	];
-
-	if (mounted && authStore.isAuthenticated) {
-		menuItems.push(
-			{ label: "Dashboard", path: "/dashboard" },
-			{ label: "Profile", path: "/profile" }
-		);
-	}
 
 	return (
 		<AppBar position="sticky" sx={{ bgcolor: "#3B6866", width: "100%", maxWidth: "100vw" }}>
@@ -88,52 +78,6 @@ function Header() {
 					>
 						Events
 					</Button>
-					{mounted ? (
-						<>
-							{authStore.isAuthenticated && (
-								<Button
-									component={RouterLink}
-									to="/dashboard"
-									color="inherit"
-									size="small"
-									sx={{ "&:hover": { textDecoration: "underline", textDecorationColor: "#F7CA02" } }}
-								>
-									Dashboard
-								</Button>
-							)}
-							{mounted && authStore.isAuthenticated && (
-								<Button
-									component={RouterLink}
-									to="/profile"
-									color="inherit"
-									size="small"
-									sx={{ "&:hover": { textDecoration: "underline", textDecorationColor: "#F7CA02" } }}
-								>
-									Profile
-								</Button>
-							)}
-							{!authStore.isAuthenticated ? (
-								<Button
-									component={RouterLink}
-									to="/auth"
-									color="inherit"
-									size="small"
-									sx={{ "&:hover": { textDecoration: "underline", textDecorationColor: "#F7CA02" } }}
-								>
-									Login
-								</Button>
-							) : (
-								<Button
-									color="inherit"
-									size="small"
-									onClick={() => authStore.logout()}
-									sx={{ "&:hover": { textDecoration: "underline", textDecorationColor: "#F7CA02" } }}
-								>
-									Logout
-								</Button>
-							)}
-						</>
-					) : null}
 				</Box>
 
 				{/* Mobile Drawer */}
@@ -165,21 +109,6 @@ function Header() {
 									</ListItemButton>
 								</ListItem>
 							))}
-							{mounted && (
-								<ListItem disablePadding>
-									<ListItemButton
-										onClick={() => {
-											if (authStore.isAuthenticated) {
-												authStore.logout();
-											}
-										}}
-										component={authStore.isAuthenticated ? "button" : RouterLink}
-										to={authStore.isAuthenticated ? undefined : "/auth"}
-									>
-										<ListItemText primary={authStore.isAuthenticated ? "Logout" : "Login"} sx={{ color: "white" }} />
-									</ListItemButton>
-								</ListItem>
-							)}
 						</List>
 					</Box>
 				</Drawer>

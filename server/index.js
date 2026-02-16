@@ -3,7 +3,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from 'node:url';
 import express from "express";
-import mongoose from "mongoose";
 
 // Load environment-specific config
 const __filename = fileURLToPath(import.meta.url);
@@ -23,20 +22,14 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import { healthCheck } from "./controllers/healthController.js";
-import authRoutes from "./routes/auth.js";
-import userRouter from './routes/user.js';
-import adminRoutes from './routes/admin.js';
-import eventsRoutes from './routes/events.js';
+import eventsRouter from "./routes/events.js";
 // SSR moved into dedicated route module
 import { createSsrMiddleware } from "./routes/ssrRoute.js";
 import { initViteDevServer, initProdStatic } from "./utils/viteHelpers.js";
-import { connectMongo } from "./utils/db.js";
 
 const isProd = process.env.NODE_ENV === "production";
 
 async function createServer() {
-	// Connect to MongoDB
-	await connectMongo();
 	const app = express();
 	// Parse JSON bodies for all requests
 	app.use(express.json());
@@ -64,16 +57,11 @@ async function createServer() {
 
 
 
-	// Auth endpoints
-	app.use("/api/auth", authRoutes);
-	// User profile endpoints
-	app.use('/api/user', userRouter);
-	// Admin & role-based endpoints
-	app.use('/api/admin', adminRoutes);
-	// Events endpoints
-	app.use('/api/events', eventsRoutes);
 	// Health endpoints (must come before SSR catch-all)
 	app.get("/healthcheck", healthCheck);
+
+	// API routes (must come before SSR catch-all)
+	app.use("/api/events", eventsRouter);
 
 	app.use("/", createSsrMiddleware({ vite, template, isProd }));
 

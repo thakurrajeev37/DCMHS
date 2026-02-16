@@ -130,17 +130,19 @@ const EventsSection = observer(() => {
 						
 						// Parse the event date
 						const eventDate = new Date(event.date);
-						const dayName = eventDate.toLocaleString('en-US', { weekday: 'long' }).toUpperCase();
-						const month = eventDate.toLocaleString('en-US', { month: 'long' }).toUpperCase();
+						const dayName = eventDate.toLocaleString('en-US', { weekday: 'short' }).toUpperCase();
+						const month = eventDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
 						const day = eventDate.getDate();
+						const year = eventDate.getFullYear();
 						
 						// For multi-day events
-						let endDayName, endMonth, endDay;
+						let endDayName, endMonth, endDay, endYear;
 						if (event.isRange && event.endDate) {
 							const endEventDate = new Date(event.endDate);
-							endDayName = endEventDate.toLocaleString('en-US', { weekday: 'long' }).toUpperCase();
-							endMonth = endEventDate.toLocaleString('en-US', { month: 'long' }).toUpperCase();
+							endDayName = endEventDate.toLocaleString('en-US', { weekday: 'short' }).toUpperCase();
+							endMonth = endEventDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
 							endDay = endEventDate.getDate();
+							endYear = endEventDate.getFullYear();
 						}
 						
 						return (
@@ -201,7 +203,7 @@ const EventsSection = observer(() => {
 														mt: 0.5,
 													}}
 												>
-													{month === endMonth ? month : `${month} - ${endMonth}`}
+													{month === endMonth ? `${month} ${year}` : `${month} ${year} - ${endMonth} ${endYear}`}
 												</Typography>
 												<Typography
 													variant="h2"
@@ -237,7 +239,7 @@ const EventsSection = observer(() => {
 														mt: 0.5,
 													}}
 												>
-													{month}
+													{month} {year}
 												</Typography>
 												<Typography
 													variant="h2"
